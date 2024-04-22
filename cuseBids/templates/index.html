@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Active Auction Items</h1>
+<ul>
+    {% for item in items %}
+    <li>
+        <a href="{% url 'item_detail' item.id %}">{{ item.title }}</a>
+        - Current bid: {{ item.current_bid }}
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
