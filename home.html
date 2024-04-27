@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bidding Website Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='home-style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Welcome to CUSEBIDS!</h1>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="{{ url_for('account') }}">My Account</a></li>
+                <li><a href="#">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+        <section class="category-section">
+            <h2>Categories</h2>
+            <div class="categories">
+                <div class="category">
+                    <h3>Electronics</h3>
+                    <!-- Add link or content for Electronics category -->
+                </div>
+                <div class="category">
+                    <h3>Clothing</h3>
+                    <!-- Add link or content for Clothing category -->
+                </div>
+                <div class="category">
+                    <h3>Books</h3>
+                    <!-- Add link or content for Books category -->
+                </div>
+                <div class="category">
+                    <h3>Furniture</h3>
+                    <!-- Add link or content for Furniture category -->
+                </div>
+            </div>
+        </section>
+        <section class="bidding-section">
+            <h2>Current Bids</h2>
+            <!-- Display current bids here -->
+        </section>
+        <section class="bidding-section">
+            <h2>Popular Items</h2>
+            <!-- Display popular items here -->
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 CUSEBIDS. All rights reserved.</p>
+    </footer>
+</body>
+</html>
