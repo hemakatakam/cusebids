@@ -1,4 +1,4 @@
-/* Google's Very Own Font */
+
 @font-face {
   font-family: 'Product Sans';
   font-style: normal;
@@ -7,15 +7,15 @@
 }
 
 :root {
-  --primary: #f47321; /* Orange for primary elements like headings and buttons */
-  --light: #ffffff; /* White for backgrounds of elements like text boxes */
-  --blue: #002f6c; /* Navy blue for backgrounds */
-  --gray: #6c757d; /* Gray for text that isn't high priority */
-  --gray-dark: #343a40; /* Darker gray for important text */
-  --indigo: #6610f2; /* A placeholder color, adjust as needed */
-  --success: #28a745; /* A placeholder color, adjust as needed */
-  --warning: #ffc107; /* A placeholder color, adjust as needed */
-  --danger: #dc3545; /* A placeholder color, adjust as needed */
+  --primary: #f47321;
+  --light: #ffffff; 
+  --blue: #002f6c; 
+  --gray: #6c757d; 
+  --gray-dark: #343a40; 
+  --indigo: #6610f2; 
+  --success: #28a745; 
+  --warning: #ffc107; 
+  --danger: #dc3545; 
 }
 
 * {
@@ -37,8 +37,8 @@ ul {
 
 #cusebids-logo {
   margin-left: 600px;
-  max-height: 60px; /* Adjust as needed */
-  margin-right: 10px; /* Gives some space between the logo and the title */
+  max-height: 60px; 
+  margin-right: 10px; 
 }
 
 #auction-title {
@@ -70,7 +70,7 @@ nav {
 .login-form {
   width: 50%;
   margin: 0 auto;
-  background-color: var(--light); /* Updated background color */
+  background-color: var(--light); 
   padding: 15px;
   box-shadow: 0 2px 5px 0.5px rgba(0, 0, 0, 0.2);
 }
@@ -78,15 +78,15 @@ nav {
 .login-form .btn {
   display: block;
   margin: 0 auto;
-  background-color: var(--primary); /* Updated button color */
-  /* Ensure to update :hover states as well */
+  background-color: var(--primary); 
+  
 }
 
 .blue-text {
-  color: var(--primary); /* Updated to use primary color */
+  color: var(--primary);
   width: max-content;
   padding-bottom: 5px;
-  border-bottom: 2px solid var(--primary); /* Updated border color */
+  border-bottom: 2px solid var(--primary); 
   margin-bottom: 10px;
 }
 
