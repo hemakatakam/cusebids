@@ -10,6 +10,28 @@ from decimal import *
 from .models import User, Listing, Bid, Comment
 from .forms import ListingForm
 from .decorators import Unauthenticated_user, Authenticated_user
+from django.contrib.auth.decorators import login_required
+from .models import User
+
+@login_required
+def addListing(request):
+    if not request.user.is_authenticated or not User.objects.filter(id=request.user.id).exists():
+        messages.error(request, "User does not exist.")
+        return redirect('login')  # Redirect to login or an appropriate page
+
+    # Continue with your existing logic for handling the listing
+    form = ListingForm(request.POST or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            new_listing = form.save(commit=False)
+            new_listing.user = request.user
+            new_listing.save()
+            messages.success(request, 'Listing added successfully!')
+            return redirect('index')
+        else:
+            messages.error(request, 'Error in form submission.')
+    
+    return render(request, 'auctions/addListing.html',{'form':form})
 
 # dictionary variable to keep track of individual's watchlist
 watch_list = dict()
@@ -223,38 +245,6 @@ def categories(request):
 @Authenticated_user
 def success(request):
     return render(request, "auctions/success.html")
-
-@Authenticated_user
-def addListing(request):
-    return handle_form(
-        request,
-        ListingForm,
-        "auctions:index",
-        "auctions/addListing.html",
-        success_msg='Successfully created your listing.',
-        error_msg='Invalid Listing!'
-    )
-
-def handle_form(request, form_class, success_url, template_name, context=None, success_msg=None, error_msg=None):
-    if request.method == "POST":
-        form = form_class(request.POST, request.FILES or None)
-        if form.is_valid():
-            instance = form.save(commit=False)
-            # Assume we always set the user if the model has a 'user' field
-            if hasattr(instance, 'user'):
-                instance.user = request.user
-            instance.save()
-            if success_msg:
-                messages.success(request, success_msg, fail_silently=True)
-            return redirect(success_url)
-        else:
-            if error_msg:
-                messages.error(request, error_msg, fail_silently=True)
-    else:
-        form = form_class()
-    context = context or {}
-    context['form'] = form
-    return render(request, template_name, context)
 
 
 @Authenticated_user
