@@ -16,9 +16,8 @@ from .decorators import Unauthenticated_user, Authenticated_user
 def addListing(request):
     if not request.user.is_authenticated or not User.objects.filter(id=request.user.id).exists():
         messages.error(request, "User does not exist.")
-        return redirect('login')  # Redirect to login or an appropriate page
+        return redirect('login')
     
-        # Continue with your existing logic for handling the listing
     form = ListingForm(request.POST or None)
     if request.method == 'POST':
         if form.is_valid():

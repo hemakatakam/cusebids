@@ -5,7 +5,7 @@ from django.db import models
 class User(AbstractUser):
     pass
 
-# stores the Listings
+
 class Listing(models.Model):
     CATEGORIES = [
         ('Accessories', 'Accessories'),
@@ -32,7 +32,7 @@ class Listing(models.Model):
     def __str__(self):
         return f"{self.name} - starts at ${self.initial}"
 
-    # used to test in test.py
+    
     def is_valid_listing(self):
         return self._check_name() and self._check_initial_price()
 
@@ -48,7 +48,7 @@ class Listing(models.Model):
         elif self.status == 'Closed':
             return "This listing has been closed."
 
-# stores the bids for the Listings
+
 class Bid(models.Model):
     user = models.ForeignKey(User, blank = False, on_delete = models.CASCADE)
     listing = models.ForeignKey(Listing, blank = False, on_delete = models.CASCADE)
@@ -59,7 +59,7 @@ class Bid(models.Model):
         return f"${self.highest_bid} - {self.user} on {self.listing.name}"
 
 
-# stores the comments on the Listings
+
 class Comment(models.Model):
     user = models.ForeignKey(User, blank = False, on_delete = models.CASCADE)
     listing = models.ForeignKey(Listing, blank = False, on_delete = models.CASCADE)

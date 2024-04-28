@@ -8,7 +8,7 @@ class ListingForm(ModelForm):
         fields = ['name', 'initial', 'image', 'category']
         
     def clean(self):
-        super().clean()  # Don't forget to clean the form first
+        super().clean()  
         if self.cleaned_data.get('initial') <= 0:
             raise ValidationError({'initial': 'The initial price must be greater than zero.'})
         return self.cleaned_data
