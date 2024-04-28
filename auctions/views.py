@@ -4,22 +4,21 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib import messages
-
+from django.contrib.auth.decorators import login_required
+from .models import User
 from decimal import *
 
 from .models import User, Listing, Bid, Comment
 from .forms import ListingForm
 from .decorators import Unauthenticated_user, Authenticated_user
-from django.contrib.auth.decorators import login_required
-from .models import User
 
 @login_required
 def addListing(request):
     if not request.user.is_authenticated or not User.objects.filter(id=request.user.id).exists():
         messages.error(request, "User does not exist.")
         return redirect('login')  # Redirect to login or an appropriate page
-
-    # Continue with your existing logic for handling the listing
+    
+        # Continue with your existing logic for handling the listing
     form = ListingForm(request.POST or None)
     if request.method == 'POST':
         if form.is_valid():
@@ -31,9 +30,8 @@ def addListing(request):
         else:
             messages.error(request, 'Error in form submission.')
     
-    return render(request, 'auctions/addListing.html',{'form':form})
+    return render(request, 'auctions/addListing.html', {'form': form})
 
-# dictionary variable to keep track of individual's watchlist
 watch_list = dict()
 
 def index(request):
@@ -57,12 +55,10 @@ def index(request):
 def login_view(request):
     if request.method == "POST":
 
-        # Attempt to sign user in
         username = request.POST["username"]
         password = request.POST["password"]
         user = authenticate(request, username=username, password=password)
 
-        # Check if authentication successful
         if user is not None:
             login(request, user)
             return HttpResponseRedirect(reverse("auctions:index"))
@@ -86,7 +82,6 @@ def register(request):
         username = request.POST["username"]
         email = request.POST["email"]
 
-        # Ensure password matches confirmation
         password = request.POST["password"]
         confirmation = request.POST["confirmation"]
         if password != confirmation:
@@ -94,7 +89,6 @@ def register(request):
                 "message": "Passwords must match."
             })
 
-        # Attempt to create new user
         try:
             user = User.objects.create_user(username, email, password)
             user.save()
@@ -112,7 +106,7 @@ def listing(request, listing):
     item = Listing.objects.get(pk=listing)
     old_bid = Bid.objects.filter(listing=item)
     if item.status == 'Closed':
-        try: # fails if no bid was placed on the item when it was closed
+        try:
             bid = old_bid[0]
             if bid.user == request.user:
                 context = {
@@ -121,8 +115,8 @@ def listing(request, listing):
                 }
                 return render(request, 'auctions/success.html', context)
         except:
-            return render(request, 'auctions/closed.html') # return after try fails
-        return render(request, 'auctions/closed.html') # return after try passes and the if statement fails
+            return render(request, 'auctions/closed.html')
+        return render(request, 'auctions/closed.html')
     comments = Comment.objects.filter(listing=item)
     if old_bid.count() is 1:
         default_bid = old_bid[0].highest_bid + 10
@@ -246,6 +240,25 @@ def categories(request):
 def success(request):
     return render(request, "auctions/success.html")
 
+@Authenticated_user
+def addListing(request):
+    if request.method == "POST":
+        form = ListingForm(request.POST, request.FILES or None)
+
+        if form.is_valid():
+            newListing = form.save(commit=False)
+            newListing.user = request.user
+            newListing.save()
+            messages.success(request, 'Successfully created your listing.', fail_silently=True)
+        else:
+            messages.error(request, 'Invalid Listing!', fail_silently=True)
+            return redirect("auctions:add_listing")
+        return redirect("auctions:index")
+    form = ListingForm()
+    context = {
+        'form': form,
+    }
+    return render(request, "auctions/addListing.html", context)
 
 @Authenticated_user
 def user_listings(request):
