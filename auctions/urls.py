@@ -3,6 +3,7 @@ from django.urls import path
 from . import views
 
 app_name = "auctions"
+# add paths for the views
 urlpatterns = [
     path("", views.index, name="index"),
     path("login", views.login_view, name="login"),
